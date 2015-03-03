@@ -39,6 +39,12 @@ module Fluent
     def configure(conf)
       super
 
+      AWS.config(
+	:credential_provider => AWS::Core::CredentialProviders::EC2Provider.new(
+	  :retries => 5
+	)
+      )
+
       if conf.has_key?('s3_endpoint')
         raise ConfigError, "s3_endpoint parameter is removed. Use s3_region instead"
       end
